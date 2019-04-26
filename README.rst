@@ -3,7 +3,7 @@ BxBoostSerializationTests
 ==================================
 
 
-This   projects  contains   some   program   which  explicitely   test
+This   projects  contains   some   programs   which  explicitely   test
 functionalities from the Boost/Serialization  library.  The goal is to
 help to investigate  and solve issues when new versions  of both Boost
 and compiler are released.
