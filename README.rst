@@ -20,7 +20,10 @@ the tests can be adapted to other situations.
   It illustrates a difference between Boost 1.65.1 and 1.68 while using
   XML I/O archives and proposes a technique to avoid the problem.
 
+ 
+* ``test2/`` :  Implementing serializable classes from
+  a shared library.
 
-* ``tools/`` : directory with quick-run scripts for my own system (Ubuntu 18.04)
+* ``tools/`` : directory with quick-start build scripts for my own system (Ubuntu 18.04)
 
-  
+ 

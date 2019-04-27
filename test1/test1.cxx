@@ -84,7 +84,7 @@ int main(int argc, char* argv[])
     std::clog << "broken_buffer = '" << broken_buffer << "'" << std::endl;
     std::clog << std::endl;
 #if BOOST_VERSION <= 106501
-    // For now this code works up to 106501 but breaks with 106800 (106600, 106700, 106900 not tested).
+    // For now this code works up to 106501 but breaks with 106800 (106600, 106700, 106900 were not tested).
     // Deserialization of the broken_buffer does not claim even if
     // the final "</boost_serialization>" XML tag is missing!
     std::clog << "<=106501 PATH" << std::endl;

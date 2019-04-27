@@ -45,5 +45,6 @@ endforeach()
 get_filename_component(Bayeux_BOOST_ROOT ${Boost_INCLUDE_DIR} DIRECTORY)
 
 add_subdirectory(test1)
+add_subdirectory(test2)
 
 # - end
