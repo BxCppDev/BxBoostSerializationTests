@@ -28,6 +28,8 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/liblib1${CMAKE_SHARED_LIBRARY_SUFFIX}
   WORLD_READ WORLD_EXECUTE
   )
 
+####################################################
+# - Test 2
 add_executable(test2 test2.cxx)
 target_link_libraries(test2 lib1)
 
@@ -39,6 +41,8 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/test2
   WORLD_READ WORLD_EXECUTE
   )
 
+####################################################
+# - Test 2b
 add_executable(test2b test2b.cxx
   class4.hpp
   class4.cpp
@@ -54,3 +58,32 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/test2b
   WORLD_READ WORLD_EXECUTE
   )
 
+####################################################
+# - Test 2c
+
+add_library(libmain SHARED
+  class4.hpp
+  class4.cpp
+  class4-serial.hpp
+  the_serializable.cpp
+  )
+target_link_libraries(libmain lib1)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/liblibmain${CMAKE_SHARED_LIBRARY_SUFFIX}
+  DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/
+  PERMISSIONS
+  OWNER_READ OWNER_EXECUTE
+  GROUP_READ GROUP_EXECUTE
+  WORLD_READ WORLD_EXECUTE
+  )
+add_executable(test2c test2c.cxx
+  class4.hpp
+  )
+target_link_libraries(test2c libmain)
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/test2c
+  DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/
+  PERMISSIONS
+  OWNER_READ  OWNER_EXECUTE
+  GROUP_READ GROUP_EXECUTE
+  WORLD_READ WORLD_EXECUTE
+  )
