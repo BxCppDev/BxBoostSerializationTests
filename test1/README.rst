@@ -9,6 +9,9 @@ In this section, we explore some aspects of the  following issues:
 - https://github.com/boostorg/serialization/issues/82
 - https://github.com/boostorg/serialization/issues/109
 
+Tested Boost versions: 1.65.1 (from system Ubuntu 18.04)
+and 1.68.0 (manually installed).
+
 
 Contents
 ========
