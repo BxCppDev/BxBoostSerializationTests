@@ -28,9 +28,9 @@ void f_broken(std::string & sink_)
     ar & boost::serialization::make_nvp("vec", outvec);
     std::clog << "oss = '" << oss.str() << "'" << std::endl;
     sink_ = oss.str(); // Fill the string before the buffer string stream is destroyed
-                       // but the archive desctructor has not been invoked yet!
+                       // but the archive destructor has not been invoked yet!
   } // Archive destructor is invoked here so the "</boost_serialization>" final XML tag
-  // is written to late with respect to the 'sink_' buffer string which is
+  // is written too late with respect to the 'sink_' buffer string above which is
   // thus malformed! See f below for the fix.
   // For 1.65, this issue is not detected while deserializing the archive
   // but 1.68 fails and throws an exception.
@@ -52,7 +52,7 @@ void f(std::string & sink_)
     // Stop the archive scope block.
   } // Archive destructor is invoked here and the final XML tag is written in the string buffer.
   std::clog << "oss = '" << oss.str() << "'" << std::endl;
-  sink_ = oss.str(); // Fill the string with the proper content
+  sink_ = oss.str(); // Fill the buffer string with the proper XMl content
   std::clog << std::endl;
 }
 
