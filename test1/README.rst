@@ -75,29 +75,36 @@ Contents
   stream after the failed attempt does not permit to read properly the
   final tag.
 
-  One may  think this behaviour is  normal and sane and  consider that
-  the behaviour before Boost 1.66 was buggy. If one tries to read some
-  possibly missing  records from  an archive, we  must add  the proper
-  code to handle  this specific use case.  The  exception mechanism is
-  only to signal a possible problem (i.e. a missing tag), not to solve
-  the  problem. A  specific  error  handler must  be  provided by  the
-  programmer.  The library  probably cannot  address all  the possible
-  issues by itself.  
+  I think  this behaviour is normal  and sane and I  consider that the
+  behaviour **before** Boost 1.66 was  buggy. The program should break
+  with 1.65 when the ``</boost_serialization>`` tag is missing.
   
-  The ``test1c.cxx``  program below  proposes a strategy  to correctly
-  address the problem in this specific case.
+  If one tries to read some  possibly missing records from an archive,
+  we must add  the proper code to handle this  specific use case.  The
+  exception mechanism  is only  to signal a  possible problem  (i.e. a
+  missing tag),  not to  solve the problem.  A specific  error handler
+  must be provided by the programmer  and such a handler would need in
+  principle  additional  informations.   The library  probably  cannot
+  magically address  all the possible  issues by itself. If  some data
+  with versatile/random  contents must be serialized,  then additional
+  informations   is  needed   and  must   be  also   serialized.   The
+  Boost/Serialization library  should be  only used  with well-defined
+  data models.
+  
+  The ``test1c.cxx``  program below  proposes a strategy  to
+  address the problem in this very specific case.
 
 * ``test1c.cxx`` : Same as ``test1b.cxx``
 
   The technique used here consists in saving the position of the input
   stream just before a possible failure in order to be able to restore
-  a position of this input stream in case of error. This makes finally
+  the position of this input stream in case of error. This makes finally
   possible to  read the final ``</boost_serialization>``  tag when the
   archive's destructor is invoked.
 
-  This approach  works but  look at  the ``test1d.cxx``  program which
+  This approach  works but please have a look at  the ``test1d.cxx``  program which
   illustrates the kind of nightmare we face when we try to deserialize
-  a more complex set of values.
+  a more complex set of values with some trial and error approach.
  
 * ``test1d.cxx`` : Based on ``test1c.cxx``
 
@@ -108,23 +115,25 @@ Contents
   the ``c``  value is parsed  and assigned to  ``b`` and ``b``  is not
   detected to be missing.  One important point is that the XML archive
   does not check the tags  associated to serialized values through the
-  name-value pair  object. Indeed, we  have used here  different names
+  name-value pair  objects. Indeed, we  have used here  different names
   for  deserialization with  respect  to  serialization.  Finally,  an
   error is detected  while trying to deserialize ``c``  because it has
   already been extracted and loaded  from the stream and thus assigned
-  to ``b``.   We are  thus forced to  use an ugly  fix to  restore the
+  to ``b`` (which is wrong of course).
+  We are  thus forced to  use an ugly  fix to  restore the
   proper ``c`` value and terminate the archive without error.
   This illustrates a situation which is not satisfactory at all.
 
   Should we incriminate  the Boost Serialization library  ?  I believe
   no.
 
-  The fact  that the  names of  the XML tags  are not  checked clearly
-  prevents us to detect the missing ``b`` issue and install an adapted
-  error handler.  On  the other hand it may be  an interesting feature
-  if  we want  to  deserialize  data from  a  XML  archive using  some
-  specific names of our choice which  we prefer to the original set of
-  different names used by the original serialization code.
+  The fact that  the names of the XML tags  are not checked (question:
+  how could we activate such a  behaviour?)  prevents us to detect the
+  missing ``b``  issue and to install  an adapted error handler.   On the
+  other  hand  it  may  be  an  interesting  feature  if  we  want  to
+  deserialize data from a XML archive using some specific names of our
+  choice which we  prefer to the original set of  different names used
+  by the original serialization code.
 
   By   the   way,   I   don't    understand   the   purpose   of   the
   ``boost::archive::no_xml_tag_checking``  initialization  flag, as  I
@@ -133,11 +142,12 @@ Contents
   
   At a more  fundamental level and in my humble  opinion, the use case
   illustrated  by the  original  ``test1b.cxx`` program  in issue  109
-  consists is  a bad programming  practise.  I believe one  should use
+  is  a bad programming  practise.  I believe one  should use
   the  Boost archive  with well  defined and  controlled data  models.
   Implementing  serialization  code  using  such  a  trial  and  error
   technique is inappropriate and prone to problems. The ``test1e.cxx``
-  program proposes a possible approach to workaround the issue 109.
+  program proposes, at some limited cost, a possible
+  approach to workaround the issue 109.
   
 * ``test1e.cxx`` :  Based on ``test1d.cxx``  but solved the  issue for
   Boost 1.68 using instances of ``boost::optional<int>``. No trick or special
