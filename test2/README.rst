@@ -51,7 +51,7 @@ Contents:
   Same as  ``test2b.cxx`` but  ``class4`` and  its export/registration
   code is  first built in  the ``libmain`` shared library  which links
   itself  to the  ``lib1``  shared library.  ``test2c``  links to  the
-  ``libmain`` shared library
+  ``libmain`` shared library.
 
 
 ..
