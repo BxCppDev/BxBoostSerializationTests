@@ -38,12 +38,12 @@ Contents
     Boost version, in the case of a broken format of the input working
     string buffer.
 
-
+  So my understanding is that this issue has nothing to do with the
+  flushing of the streams.
 
 * ``test1a.cxx``   :  This  is a fixed version of the   program  provided   by
   ``steronydh``                                                  at
   https://github.com/boostorg/serialization/issues/82
-
 
 * ``test1b.cxx``   :  This   reproduces   the   program  provided   by
   ``tsondergaard``                                                  at
@@ -52,7 +52,7 @@ Contents
   The  issue is  different, while  related, to  the one  shown in  the
   ``test1.cxx`` program.
 
-  From Boost 1.66, this code breaks with error::
+  From Boost 1.66, this code breaks with error:
 
   .. code::
      
